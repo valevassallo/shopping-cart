@@ -1,11 +1,16 @@
 import React from "react";
 import styled from "styled-components";
+import { UPDATE_PRODUCT } from "../graphql/mutations";
+import { useMutation } from "@apollo/react-hooks";
 
-function Product({ product }) {
+function Product({ product, cartId }) {
   const [quantity, setQuantity] = React.useState(0);
   const [showControls, setShowControls] = React.useState(false);
+  const [updateProduct, { data }] = useMutation(UPDATE_PRODUCT);
 
   const node = React.useRef();
+
+  console.log(product);
 
   const ProductContainer = styled.div`
     width: 328px;
@@ -75,12 +80,12 @@ function Product({ product }) {
     font-size: 32px;
   `;
 
-  function handleClickOutside(e) {
-    if (node.current.contains(e.target)) {
-      return;
-    }
-    setShowControls(false);
-  }
+  const RightPart = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  `;
 
   React.useEffect(() => {
     if (showControls) {
@@ -98,21 +103,39 @@ function Product({ product }) {
     setShowControls(true);
   }
 
+  function handleClickOutside(e) {
+    if (node.current.contains(e.target)) {
+      return;
+    }
+    setShowControls(false);
+    console.log(quantity);
+    updateProduct({
+      variables: {
+        id: product.id,
+        quantity: quantity,
+        cartId: cartId
+      }
+    });
+  }
+
   function handleDecrementQuantity() {
     if (quantity > 1) {
       setQuantity(quantity - 1);
     } else {
       setQuantity(0);
-      setShowControls(false);
+      // updateProduct({ variables: { id: product.id, cartId: null } });
     }
   }
 
   function handleIncrementQuantity() {
-    if (!quantity) {
-      setQuantity(1);
-    } else {
-      setQuantity(quantity + 1);
-    }
+    setQuantity(function(prevState) {
+      console.log(prevState);
+      return prevState + 1;
+    });
+  }
+
+  function handleDelete() {
+    updateProduct({ variables: { id: product.id, cartId: null } });
   }
 
   return (
@@ -125,6 +148,7 @@ function Product({ product }) {
             width="80px"
             height="74px"
           />
+          <div>{quantity}</div>
           <ProductDiv>
             <ProductInfo>
               <ProductTitle>{product.name}</ProductTitle>
@@ -142,9 +166,12 @@ function Product({ product }) {
                 </ControlButton>
               </QuantityControls>
             ) : (
-              <AddToCart onClick={handleAddToCart}>
-                {quantity ? quantity : "+"}
-              </AddToCart>
+              <RightPart>
+                <AddToCart onClick={handleAddToCart}>
+                  {quantity ? quantity : "+"}
+                </AddToCart>
+                <span onClick={handleDelete}>delete</span>
+              </RightPart>
             )}
           </ProductDiv>
         </ProductContainer>

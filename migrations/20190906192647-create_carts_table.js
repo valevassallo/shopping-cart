@@ -1,4 +1,5 @@
-'use strict';
+/* eslint-disable */
+"use strict";
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
@@ -8,11 +9,13 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true
-      }
-    })
+      },
+      createdAt: Sequelize.DATE,
+      updatedAt: Sequelize.DATE
+    });
   },
 
   down: (queryInterface, _Sequelize) => {
-    return queryInterface.dropTable('carts');
+    return queryInterface.dropTable("carts");
   }
 };

@@ -8,7 +8,7 @@ module.exports = {
     order: (_parent, { id }, { models }, _info) => models.order.findByPk(id)
   },
   Mutation: {
-    updateProduct: (_parent, { quantity, cartId, id }, { models }, _info) =>
+    updateProduct: (_parent, { id, quantity, cartId }, { models }, _info) =>
       models.product.update(
         {
           quantity: quantity,

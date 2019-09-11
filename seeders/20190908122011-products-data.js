@@ -1,3 +1,4 @@
+/* eslint-disable */
 "use strict";
 
 module.exports = {
@@ -67,6 +68,6 @@ module.exports = {
   },
 
   down: (queryInterface, _Sequelize) => {
-    return queryInterface.bulkDelete("Product", null, {});
+    return queryInterface.bulkDelete("Products", null, {});
   }
 };

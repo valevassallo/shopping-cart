@@ -9,9 +9,8 @@ import Calcs from "./Calcs";
 import ProductsInCart from "./ProductsInCart";
 import EmptyCart from "./EmptyCart";
 
-function Cart() {
-  const [product, setProduct] = React.useState();
-  const [productsPrice, setProductsPrice] = React.useState();
+function Cart({ cartId }) {
+  const [product, setProduct] = React.useState({});
   const { loading, error, data } = useQuery(FIND_PRODUCT, {
     variables: { name: product },
     skip: !product
@@ -28,7 +27,6 @@ function Cart() {
     width: calc(100% - 240px);
     display: flex;
     flex-direction: row;
-    background: #f7f7f9;
     justify-content: space-around;
     padding: 64px 120px;
   `;
@@ -49,15 +47,12 @@ function Cart() {
           <EmptyCart />
         ) : (
           <CartItself>
-            <Product
-              product={data.product}
-              setProductsPrice={setProductsPrice}
-            />
+            <Product product={data.product} cartId={cartId} />
           </CartItself>
         )}
       </section>
       <section>
-        <Calcs productsPrice={productsPrice} />
+        <Calcs />
       </section>
     </Container>
   );

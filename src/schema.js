@@ -2,34 +2,34 @@ const { gql } = require("apollo-server-express");
 
 const typeDefs = gql`
   type Order {
-    id: ID!
+    id: Int!
     code: String!
     cart: Cart
   }
   type Cart {
-    id: ID!
-    orderId: ID
+    id: Int!
+    orderId: Int
     order: Order
     products: [Product]
   }
   type Product {
-    id: ID!
+    id: Int!
     name: String!
     price: Float!
     quantity: Int
     img: String
-    cartId: ID
+    cartId: Int
     cart: Cart
   }
   type Query {
-    cart(id: ID!): Cart!
-    product(id: ID, name: String): Product
-    order(id: ID!): Order!
+    cart(id: Int!): Cart!
+    product(id: Int, name: String): Product
+    order(id: Int!): Order!
   }
   type Mutation {
-    updateProduct(id: ID!, quantity: Int, cartId: ID): Product
+    updateProduct(id: Int!, quantity: Int, cartId: Int): Product
     createCart: Cart
-    updateCart(id: ID, orderId: ID): Cart
+    updateCart(id: Int, orderId: Int): Cart
     createOrder(code: String): Order
   }
 `;

@@ -1,20 +1,12 @@
 import { gql } from "apollo-boost";
 
 const UPDATE_PRODUCT = gql`
-  mutation UpdateProduct($id: ID!, $quantity: Int, $cartId: ID) {
-    updateProduct(quantity: $quantity, cartId: $cartId) {
+  mutation UpdateProduct($id: Int!, $quantity: Int, $cartId: Int) {
+    updateProduct(id: $id, quantity: $quantity, cartId: $cartId) {
       id
       name
       quantity
       cartId
-    }
-  }
-`;
-
-const CREATE_CART = gql`
-  mutation CreateCart() {
-    createCart() {
-      id
     }
   }
 `;
@@ -29,7 +21,7 @@ const CREATE_ORDER = gql`
 `;
 
 const UPDATE_CART = gql`
-  mutation UpdateCart($id: ID!, $orderId: ID!) {
+  mutation UpdateCart($id: ID!, $orderId: Int) {
     updateCart(id: $id, orderId: $orderId) {
       id
       orderId
@@ -37,4 +29,4 @@ const UPDATE_CART = gql`
   }
 `;
 
-export { UPDATE_PRODUCT, CREATE_CART, CREATE_ORDER, UPDATE_CART }
+export { UPDATE_PRODUCT, CREATE_ORDER, UPDATE_CART };
